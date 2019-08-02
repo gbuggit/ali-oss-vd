@@ -18,7 +18,7 @@ const defaultVolumeRoot = "/var/lib/docker/volumes" //difference from volume.Def
 var (
 	mount  = defaultVolumeRoot	
 	config = flag.String("config", "", "a config file or a config variant name of swarm about alyun oss infomation, for example:\n" +
-		"	ali-oss-vd -config /ossfs/def.conf		-->config file\n" +
+		"	ali-oss-vd -config /var/lib/ossfs/def.conf	-->config file\n" +
 		"	ali-oss-vd -config conf.oss.driver.volume	-->config variant in docker swarm\n" +
 		"whether a file or a variant in docker swarm, the content may be like this:\n" +
 		"	-------------------------------------------------------------\n" +
@@ -71,8 +71,9 @@ func main() {
     	                log.Fatalf("Error %v", err)
     	        }
 	}
-	ots, _ := ExecuteCmd("ossfs --version", 1, *debug)
-	if strings.Contains(ots, "command not found"){
+	flag.Parse();
+	ots, _ := ExecuteCmd("type ossfs >/dev/null 2>&1 || { echo >&2 \"none\";}", 1, *debug)
+	if strings.Contains(ots, "none"){
 		fmt.Printf("%c[1;0;31merror: ossfs not installed!%c[0m\n",0x1B, 0x1B)
 		Usage()
 		return

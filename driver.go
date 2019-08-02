@@ -308,7 +308,7 @@ func (d ALiOssVolumeDriver) Remove(r *volume.RemoveRequest) error {
                 pkp := filepath.Join(ossfsRoot, ToMd5(bkn))
                 
                 tos, _ = ExecuteCmd("mountpoint " + pkp, 3, d.debug)
-                if strings.Contains(tos, "is a mountpoint") {
+                if strings.Contains(tos, "is a mountpoint") || strings.Contains(tos, "是一个挂载点") {
                        	_, err := ExecuteCmd("fusermount -u " + pkp, 4, d.debug)
 			if err == nil {
 				os.RemoveAll(pkp)				
@@ -348,8 +348,8 @@ func (d ALiOssVolumeDriver) Mount(r *volume.MountRequest) (*volume.MountResponse
         pkp := filepath.Join(ossfsRoot, ToMd5(bkn))
 
 	tos, _ := ExecuteCmd("mountpoint " + pkp, 1, d.debug);
-	if !strings.Contains(tos, "is a mountpoint") {
-		if strings.Contains(tos, "is not a mountpoint"){
+	if !(strings.Contains(tos, "is a mountpoint") || strings.Contains(tos, "是一个挂载点")){
+		if strings.Contains(tos, "is not a mountpoint") || strings.Contains(tos, "不是一个挂载点"){
 			os.RemoveAll(pkp)
 		}
 		cfg := vi.bucket.Client.Config
@@ -372,7 +372,7 @@ func (d ALiOssVolumeDriver) Mount(r *volume.MountRequest) (*volume.MountResponse
 	tos, _ = ExecuteCmd("ls -l --color=auto " + af, 2, d.debug);
         if strings.Contains(tos, af + " ->") {
 		ExecuteCmd("rm -rf " + af, 3, d.debug)
-	}else if strings.Contains(tos, "No such file or directory"){
+	}else if strings.Contains(tos, "No such file or directory") || strings.Contains(tos, "没有那个文件或目录"){
 		os.MkdirAll(d.mount, os.ModePerm)
 		os.RemoveAll(af)
 	}
