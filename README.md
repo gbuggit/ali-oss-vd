@@ -88,7 +88,7 @@ git clone https://github.com/docker/go-plugins-helpers.git ./github.com/docker/g
 
 git clone https://github.com/docker/go-connections.git ./github.com/docker/go-connections
 
-git clone https://github.com/moby/moby.git ./github.com/docker/docker
+git clone --depth 1 https://github.com/moby/moby.git ./github.com/docker/docker
 
 mkdir -p github.com/coreos
 git clone https://github.com/coreos/go-systemd.git ./github.com/coreos/go-systemd
