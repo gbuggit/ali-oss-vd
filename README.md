@@ -90,8 +90,6 @@ git clone https://github.com/docker/go-connections.git ./github.com/docker/go-co
 
 git clone https://github.com/moby/moby.git ./github.com/docker/docker
 
-git clone https://github.com/gbuggit/ali-oss-vd.git
-
 mkdir -p github.com/coreos
 git clone https://github.com/coreos/go-systemd.git ./github.com/coreos/go-systemd
 
